@@ -47,7 +47,7 @@ class Bot(commands.Bot):
         """
         Generates an embed for the chosen teams
         """
-        embed = discord.Embed(title="Valorant 10 Man Bot",colour=discord.Colour(0x470386))
+        embed = discord.Embed(title="Valorant 10-Mans",colour=discord.Colour(0x470386))
         team_a_strings = [get_member_name(m,lower=False) for m in self.teams["A"]]
         team_b_strings = [get_member_name(m,lower=False) for m in self.teams["B"]]   
         embed.add_field(name="Defenders", value="{}".format("\n".join(team_a_strings)), inline=True)
@@ -63,10 +63,10 @@ class Bot(commands.Bot):
         if player in self.remaining:
             self.teams[team].append(player)
             self.remaining.remove(player)
-            return discord.Embed(title="Valorant 10 Man Bot",
+            return discord.Embed(title="Valorant 10-Mans",
                 description="{} has been drafted to team {}".format(get_member_name(player,lower=False), ":a:" if team == "A" else ":b:"))
         else:
-            return discord.Embed(title="Valorant 10 Man Bot",description="Sorry, {} is already drafted".format(get_member_name(player)))
+            return discord.Embed(title="Valorant 10-Mans",description="Sorry, {} is already drafted".format(get_member_name(player)))
 
     async def new_game(self, players):
         """
@@ -74,7 +74,7 @@ class Bot(commands.Bot):
             :param players: list of Discord.Member variables representing players
         """   
         if len(players) != 10:
-            return discord.Embed(title="Valorant 10 Man Bot",
+            return discord.Embed(title="Valorant 10-Mans",
             description="You cannot start a game with only {} players".format(len(players)))
         self.teams = {"A": [], "B" : []}
         self.previous_captains = self.captains
@@ -85,7 +85,7 @@ class Bot(commands.Bot):
         self.turn = 1
         self.order = []
         self.map_dict = {k : True for k in self.map_dict.keys()}
-        return discord.Embed(title="Valorant 10 Man Bot",
+        return discord.Embed(title="Valorant 10-Mans",
             description="New game started".format(len(players)))
 
     async def get_remaining_map_string(self):
@@ -105,7 +105,7 @@ class Bot(commands.Bot):
             :param caller: discord.Member object that represents who called the command
         """   
         if caller not in self.captains.values():
-            return discord.Embed(title="Valorant 10 Man Bot", description="Only captains can ban maps")
+            return discord.Embed(title="Valorant 10-Mans", description="Only captains can ban maps.")
         map_to_ban = map_to_ban[0].upper() + map_to_ban[1:].lower()
 
         if map_to_ban.lower() in self.map_dict.keys() and self.map_dict[map_to_ban.lower()] == True:
@@ -117,13 +117,13 @@ class Bot(commands.Bot):
                 embed_string = "The match will be played on {}".format(next((prettify(k) for k in self.map_dict.keys() if self.map_dict[k]), None))
             else:
                 embed_string = f"{map_to_ban} has been banned\n\n The remaining maps are\n\n" + await self.get_remaining_map_string()
-            return discord.Embed(title="Valorant 10 Man Bot", description=embed_string)
+            return discord.Embed(title="Valorant 10-Mans", description=embed_string)
 
         elif map_to_ban.lower() not in self.map_dict.keys():
-            return discord.Embed(title="Valorant 10 Man Bot", description=f"{map_to_ban} is not a valid map")
+            return discord.Embed(title="Valorant 10-Mans", description=f"{map_to_ban} is not a valid map.")
 
         elif not self.map_dict[map_to_ban.lower()]:
-            return discord.Embed(title="Valorant 10 Man Bot", 
+            return discord.Embed(title="Valorant 10-Mans", 
                                  description=f"{map_to_ban} is already banned. The remaining maps are:\n"+ await self.get_remaining_map_string()) 
     async def generate_captains(self,team_a_channel, team_b_channel):
         """
@@ -131,8 +131,8 @@ class Bot(commands.Bot):
             :ret discord.Embed: embed object to display 
         """
         if len(self.remaining) != 10:
-            return discord.Embed(title="Valorant 10 Man Bot",
-                description="Please use the command !new and ensure you have 10 players in the channel before selecting captains")
+            return discord.Embed(title="Valorant 10-Mans",
+                description="Please use the command !new and ensure you have 10 players in the channel before selecting captains.")
         potential = []
         check_prev = self.previous_time and (datetime.now() - self.previous_time).seconds / SECS_TO_HOURS <= TIME_THRESOLD #seconds to hours conversion
         for p in self.remaining:
@@ -147,7 +147,7 @@ class Bot(commands.Bot):
         for i,team in enumerate(self.captains.keys()):
             await self.set_captain(caps[i],team)
 
-        return discord.Embed(title="Valorant 10 Man Bot",
+        return discord.Embed(title="Valorant 10-Mans",
             description="The captains are @{} (1st pick) and @{} (2nd pick)".format(get_member_name(caps[0],lower=False),get_member_name(caps[1],lower=False)))
     async def get_remaining(self):
         """
@@ -169,18 +169,18 @@ class Bot(commands.Bot):
             :param player:  discord.Member object representing player
         """
         if player not in self.remaining:
-            return discord.Embed(title="Valorant 10 Man Bot",description="{} is not a valid player or they have been drafted already".format(player))
+            return discord.Embed(title="Valorant 10-Mans",description="{} is not a valid player or they have been drafted already.".format(player))
         elif captain not in self.captains.values():
-            return discord.Embed(title="Valorant 10 Man Bot",description="{} is not a captain".format(get_member_name(captain)))
+            return discord.Embed(title="Valorant 10-Mans",description="{} is not a captain".format(get_member_name(captain)))
             
         team = "A" if captain == self.captains["A"] else "B"
         opp = "B" if team == "A" else "A"
 
         if len(self.teams[team]) == 0 and len(self.teams[opp]) == 0 and self.order[0] != captain: 
-            return discord.Embed(title="Valorant 10 Man bot",description="The other captain gets to draft first, sorry!")
+            return discord.Embed(title="Valorant 10-Mans",description="The other captain gets to draft first, sorry!")
         elif len(self.teams[team]) > len(self.teams[opp]) \
                 or len(self.teams[team]) >= sum(self.drafting_dict[team][:self.turn]) + 1: # + 1 to include captain
-            return discord.Embed(title="Valorant 10 Man bot",description="You've already drafted this turn, please wait for the other captain")
+            return discord.Embed(title="Valorant 10-Mans",description="You've already drafted this turn, please wait for the other captain.")
         
         embed = await self.add_to_team(player, team)
         if len(self.remaining) == 0:

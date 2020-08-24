@@ -8,11 +8,11 @@ from converters import Player
 
 options = yaml.load(open("config.yaml",'r'))
 blacklist = open("blacklist.txt","r").readlines()
-bot = Bot("!", options["scheme"], options["maps"], blacklist)
+bot = Bot("v!", options["scheme"], options["maps"], blacklist)
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="!help for help"))
+    await bot.change_presence(activity=discord.Game(name="Haven is bad | v!help"))
 
 @bot.command()
 async def newcaps(ctx):

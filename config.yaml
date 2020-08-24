@@ -1,6 +1,6 @@
 lobby: "10 Man Lobby"
-team_a: "Valorant Team A"
-team_b: "Valorant Team B"
+team_a: "Defenders"
+team_b: "Attackers"
 scheme:
   - "A1"
   - "B2"
