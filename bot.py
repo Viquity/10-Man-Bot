@@ -8,6 +8,12 @@ from datetime import datetime
 from utils import get_member_name, prettify
 from converters import Player
 
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 TIME_THRESOLD = 1.5 # number of hours cutoff to check previous players when choosing captains
 SECS_TO_HOURS = 60**2
 
