@@ -133,7 +133,7 @@ class Bot(commands.Bot):
         """
         if len(self.remaining) != 10:
             return discord.Embed(title="Valorant 10-Mans",
-                description="Please use the command !new and ensure you have 10 players in the channel before selecting captains.")
+                description="Please use the command v!new and ensure you have 10 players in the channel before selecting captains.")
         potential = []
         check_prev = self.previous_time and (datetime.now() - self.previous_time).seconds / SECS_TO_HOURS <= TIME_THRESOLD #seconds to hours conversion
         for p in self.remaining:
