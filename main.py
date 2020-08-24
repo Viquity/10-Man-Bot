@@ -7,11 +7,6 @@ from bot import Bot
 from utils import get_member_name
 from converters import Player
 
-from os.path import join, dirname
-from dotenv import load_dotenv
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
-
 options = yaml.load(open("config.yaml",'r'))
 blacklist = open("blacklist.txt","r").readlines()
 bot = Bot("v!", options["scheme"], options["maps"], blacklist)
@@ -85,4 +80,4 @@ async def help(ctx):
                          :five: v!ban <map_name> : bans a map (must be captain)")
     await ctx.send(embed=embed)
     
-bot.run(os.environ.get["DISCORD_KEY"])
+bot.run(os.environ["DISCORD_KEY"])
