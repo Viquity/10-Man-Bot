@@ -13,7 +13,7 @@ bot = Bot("v!", options["scheme"], options["maps"], blacklist)
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="Haven is bad | v!help"))
+    await bot.change_presence(activity=discord.Game(name="Ascent is trash lol | v!help"))
 
 @bot.command()
 async def newcaps(ctx):
